@@ -1,0 +1,1 @@
+rootProject.name = "next-js-shadcn-2025-03-17"
