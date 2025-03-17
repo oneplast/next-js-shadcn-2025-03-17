@@ -1,39 +1,127 @@
-export default function ClientPage() {
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import type { components } from "@/lib/backend/apiV1/schema";
+
+export default function ClientPage({
+  searchKeyword,
+  searchKeywordType,
+  pageSize,
+  itemPage,
+}: {
+  searchKeyword: string;
+  searchKeywordType: string;
+  page: number;
+  pageSize: number;
+  itemPage: components["schemas"]["PageDtoPostDto"];
+}) {
+  const router = useRouter();
+
   return (
     <div className="container mx-auto px-4">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis
-      similique autem soluta architecto fugit praesentium hic dolorem, error est
-      eligendi quasi, voluptates sed provident mollitia omnis nostrum obcaecati
-      doloremque tenetur. Autem veritatis possimus sed perspiciatis voluptatem
-      quis asperiores nostrum sequi odio obcaecati laboriosam non voluptates
-      pariatur reprehenderit, explicabo optio voluptatum fugiat deleniti
-      molestiae, consectetur ea ipsum! Placeat a aperiam cupiditate. Possimus
-      necessitatibus dolores beatae error, officia rerum incidunt ullam officiis
-      cupiditate minus quia laudantium, illum soluta, aspernatur tenetur iusto
-      animi velit inventore! Tempore quidem dolore, voluptatum fugit ab modi
-      eos. Omnis, incidunt! Voluptates consequatur illo cumque dolorum
-      veritatis? Qui ducimus enim veniam facilis ea labore, alias maiores quas,
-      unde totam sequi at possimus cumque autem iure tenetur, dicta deleniti
-      facere? Nam, obcaecati! Ad recusandae saepe qui illum itaque fuga
-      architecto laboriosam, mollitia quasi modi explicabo, assumenda
-      voluptatibus at vero debitis placeat, vitae ab corporis commodi temporibus
-      sequi dignissimos tempora. Placeat? Quasi temporibus minima doloribus
-      nobis, enim et recusandae facilis in, ut dolor quas repudiandae deleniti
-      ea eligendi! Explicabo nisi, obcaecati, veniam, nemo harum labore
-      recusandae cupiditate quaerat ipsum laudantium ullam. Blanditiis ullam
-      obcaecati praesentium quisquam! Beatae natus excepturi facere nostrum quos
-      nam vitae quia expedita! Aliquam voluptatem, quia at provident, est amet
-      odio expedita eos autem a sint, qui ipsa? Quam rem debitis distinctio
-      nihil ipsum corrupti illo amet nulla eos saepe hic ratione incidunt,
-      labore omnis corporis officia molestias repellendus, reiciendis dolores
-      neque illum? Nam nesciunt nostrum iste consequatur. Quis porro quod, ullam
-      odio ut, facere quam fugit reiciendis id doloribus esse tempore illo
-      consectetur doloremque consequatur explicabo odit harum at suscipit.
-      Perspiciatis quod officiis voluptas perferendis fugiat illum? Quaerat,
-      numquam reiciendis praesentium earum accusamus sed dolorem voluptates.
-      Dolores suscipit doloribus, iusto quam provident ipsa ipsum! Quis expedita
-      suscipit officia fugiat minus possimus. Consequatur magni ad aspernatur
-      alias. Tempore!
+      <h1 className="text-2xl font-bold">공개글 목록</h1>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          const formData = new FormData(e.target as HTMLFormElement);
+          const searchKeyword = formData.get("searchKeyword") as string;
+          const searchKeywordType = formData.get("searchKeywordType") as string;
+          const page = formData.get("page") as string;
+          const pageSize = formData.get("pageSize") as string;
+
+          router.push(
+            `?page=${page}&pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`,
+          );
+        }}
+      >
+        <input type="hidden" name="page" value="1" />
+        <select name="pageSize" defaultValue={pageSize}>
+          <option disabled>페이당 행 수</option>
+          <option value="10">10</option>
+          <option value="30">30</option>
+          <option value="50">50</option>
+        </select>
+        <select name="searchKeywordType" defaultValue={searchKeywordType}>
+          <option disabled>검색어 타입</option>
+          <option value="title">제목</option>
+          <option value="content">내용</option>
+        </select>
+        <input
+          placeholder="검색어를 입력해주세요."
+          type="text"
+          name="searchKeyword"
+          defaultValue={searchKeyword}
+        />
+        <button type="submit">검색</button>
+      </form>
+
+      <div>
+        <div>currentPageNumber: {itemPage.currentPageNumber}</div>
+
+        <div>pageSize: {itemPage.pageSize}</div>
+
+        <div>totalPages: {itemPage.totalPages}</div>
+
+        <div>totalItems: {itemPage.totalItems}</div>
+      </div>
+
+      <hr />
+
+      <div className="flex my-2 gap-2">
+        {Array.from({ length: itemPage.totalPages }, (_, i) => i + 1).map(
+          (pageNum) => (
+            <Link
+              key={pageNum}
+              className={`px-2 py-1 border rounded ${
+                pageNum === itemPage.currentPageNumber ? "text-red-500" : ""
+              }`}
+              href={`?page=${pageNum}&pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
+            >
+              {pageNum}
+            </Link>
+          ),
+        )}
+      </div>
+
+      <hr />
+
+      <ul>
+        {itemPage.items.map((item) => (
+          <li key={item.id} className="border-[2px] border-[red] my-3">
+            <Link className="block" href={`/post/${item.id}`}>
+              <div>id : {item.id}</div>
+              <div>createDate : {item.createDate}</div>
+              <div>modifyDate : {item.modifyDate}</div>
+              <div>authorId : {item.authorId}</div>
+              <div>authorName : {item.authorName}</div>
+              <div>title : {item.title}</div>
+              <div>published : {`${item.published}`}</div>
+              <div>listed : {`${item.listed}`}</div>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <hr />
+
+      <div className="flex my-2 gap-2">
+        {Array.from({ length: itemPage.totalPages }, (_, i) => i + 1).map(
+          (pageNum) => (
+            <Link
+              key={pageNum}
+              className={`px-2 py-1 border rounded ${
+                pageNum === itemPage.currentPageNumber ? "text-red-500" : ""
+              }`}
+              href={`?page=${pageNum}&pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
+            >
+              {pageNum}
+            </Link>
+          ),
+        )}
+      </div>
     </div>
   );
 }
