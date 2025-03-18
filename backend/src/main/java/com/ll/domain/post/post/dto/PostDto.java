@@ -23,6 +23,9 @@ public class PostDto {
     private final String authorName;
 
     @NonNull
+    private final String authorProfileImgUrl;
+
+    @NonNull
     private final String title;
 
     @NonNull
@@ -37,6 +40,7 @@ public class PostDto {
         this.modifyDate = post.getModifyDate();
         this.authorId = post.getAuthor().getId();
         this.authorName = post.getAuthor().getName();
+        this.authorProfileImgUrl = post.getAuthor().getProfileImgUrl();
         this.title = post.getTitle();
         this.published = post.isPublished();
         this.listed = post.isListed();
