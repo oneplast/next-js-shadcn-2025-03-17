@@ -22,7 +22,7 @@ export default function ClientPage({
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-2xl font-bold">공개글 목록</h1>
+      <h1 className="text-2xl font-bold text-center my-4">공개글 목록</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -59,26 +59,20 @@ export default function ClientPage({
         <button type="submit">검색</button>
       </form>
 
-      <div>
-        <div>currentPageNumber: {itemPage.currentPageNumber}</div>
-
-        <div>pageSize: {itemPage.pageSize}</div>
-
-        <div>totalPages: {itemPage.totalPages}</div>
-
-        <div>totalItems: {itemPage.totalItems}</div>
-      </div>
-
-      <hr />
-
       <PaginationType1
-        className="my-2"
+        className="my-2 sm:hidden"
         baseQueryString={`pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
         totalPages={itemPage.totalPages}
         currentPageNumber={itemPage.currentPageNumber}
       />
 
-      <hr />
+      <PaginationType1
+        className="my-2 hidden sm:flex"
+        baseQueryString={`pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
+        totalPages={itemPage.totalPages}
+        currentPageNumber={itemPage.currentPageNumber}
+        paginationArmSize={4}
+      />
 
       <ul>
         {itemPage.items.map((item) => (
@@ -97,15 +91,20 @@ export default function ClientPage({
         ))}
       </ul>
 
-      <hr />
-
       <PaginationType1
-        className="my-2"
+        className="my-2 sm:hidden"
         baseQueryString={`pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
         totalPages={itemPage.totalPages}
         currentPageNumber={itemPage.currentPageNumber}
       />
-      <hr />
+
+      <PaginationType1
+        className="my-2 hidden sm:flex"
+        baseQueryString={`pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
+        totalPages={itemPage.totalPages}
+        currentPageNumber={itemPage.currentPageNumber}
+        paginationArmSize={4}
+      />
     </div>
   );
 }

@@ -13,6 +13,7 @@ interface PaginationProps {
   baseQueryString: string;
   totalPages: number;
   currentPageNumber: number;
+  paginationArmSize?: number;
 }
 
 export default function PaginationType1({
@@ -20,6 +21,7 @@ export default function PaginationType1({
   baseQueryString,
   totalPages,
   currentPageNumber,
+  paginationArmSize = 1,
 }: PaginationProps) {
   const {
     pageButtonUrl,
@@ -30,6 +32,7 @@ export default function PaginationType1({
     baseQueryString,
     totalPages,
     currentPageNumber,
+    paginationArmSize,
   });
 
   return (

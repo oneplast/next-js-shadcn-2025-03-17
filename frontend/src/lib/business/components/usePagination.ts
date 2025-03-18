@@ -2,14 +2,15 @@ interface UsePaginationProps {
   baseQueryString: string;
   totalPages: number;
   currentPageNumber: number;
+  paginationArmSize: number;
 }
 
 export function usePagination({
   baseQueryString,
   totalPages,
   currentPageNumber,
+  paginationArmSize,
 }: UsePaginationProps) {
-  const paginationArmSize = 1;
   const pageButtonUrl = (pageNumber: number) =>
     `?page=${pageNumber}&${baseQueryString}`;
 
