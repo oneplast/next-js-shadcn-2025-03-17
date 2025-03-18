@@ -60,6 +60,10 @@ logging:
     org.hibernate.orm.jdbc.extract: trace
     org.springframework.transaction.interceptor: trace
 custom:
+  notProdMembers:
+    - username: KAKAO__3945822555
+      nickname: 민경훈
+      profileImgUrl: http://k.kakaocdn.net/dn/ch7qk8/btrN68cuqOC/dw98gILEDSQevAp2hXCzW0/img_640x640.jpg
   dev:
     cookieDomain: localhost
     frontUrl: "http://${custom.dev.cookieDomain}:3000"
