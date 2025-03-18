@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import type { components } from "@/lib/backend/apiV1/schema";
+import PaginationType1 from "@/lib/business/components/PaginationType1";
 
 export default function ClientPage({
   searchKeyword,
@@ -70,21 +71,12 @@ export default function ClientPage({
 
       <hr />
 
-      <div className="flex my-2 gap-2">
-        {Array.from({ length: itemPage.totalPages }, (_, i) => i + 1).map(
-          (pageNum) => (
-            <Link
-              key={pageNum}
-              className={`px-2 py-1 border rounded ${
-                pageNum === itemPage.currentPageNumber ? "text-red-500" : ""
-              }`}
-              href={`?page=${pageNum}&pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
-            >
-              {pageNum}
-            </Link>
-          ),
-        )}
-      </div>
+      <PaginationType1
+        className="my-2"
+        baseQueryString={`pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
+        totalPages={itemPage.totalPages}
+        currentPageNumber={itemPage.currentPageNumber}
+      />
 
       <hr />
 
@@ -107,21 +99,13 @@ export default function ClientPage({
 
       <hr />
 
-      <div className="flex my-2 gap-2">
-        {Array.from({ length: itemPage.totalPages }, (_, i) => i + 1).map(
-          (pageNum) => (
-            <Link
-              key={pageNum}
-              className={`px-2 py-1 border rounded ${
-                pageNum === itemPage.currentPageNumber ? "text-red-500" : ""
-              }`}
-              href={`?page=${pageNum}&pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
-            >
-              {pageNum}
-            </Link>
-          ),
-        )}
-      </div>
+      <PaginationType1
+        className="my-2"
+        baseQueryString={`pageSize=${pageSize}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}`}
+        totalPages={itemPage.totalPages}
+        currentPageNumber={itemPage.currentPageNumber}
+      />
+      <hr />
     </div>
   );
 }
