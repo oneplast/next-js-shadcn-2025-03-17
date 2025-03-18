@@ -33,7 +33,7 @@ export default function WideHeaderContent({
       </Button>
       {isLogin && (
         <Button variant="link" asChild>
-          <Link href="/post/list">
+          <Link href="/post/write">
             <Pencil />
             작성
           </Link>

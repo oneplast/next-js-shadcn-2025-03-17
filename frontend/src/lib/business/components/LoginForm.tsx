@@ -47,27 +47,23 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormInputs) => {
-    try {
-      const response = await client.POST("/api/v1/members/login", {
-        body: {
-          username: data.username,
-          password: data.password,
-        },
-      });
+    const response = await client.POST("/api/v1/members/login", {
+      body: {
+        username: data.username,
+        password: data.password,
+      },
+    });
 
-      if (response.error) {
-        toast.error(response.error.msg);
-        return;
-      }
-
-      toast(response.data.msg);
-
-      setLoginMember(response.data.data.item);
-
-      router.replace("/");
-    } catch {
-      toast.error("로그인 중 오류가 발생했습니다.");
+    if (response.error) {
+      toast.error(response.error.msg);
+      return;
     }
+
+    toast(response.data.msg);
+
+    setLoginMember(response.data.data.item);
+
+    router.replace("/");
   };
 
   return (

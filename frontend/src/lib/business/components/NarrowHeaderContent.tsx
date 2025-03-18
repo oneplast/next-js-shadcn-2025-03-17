@@ -71,7 +71,7 @@ export default function NarrowHeaderContent({
                       className="w-full justify-start"
                       asChild
                     >
-                      <Link href="/post/list">
+                      <Link href="/post/write">
                         <Pencil />
                         작성
                       </Link>
