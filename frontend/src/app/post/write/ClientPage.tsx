@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const writeFormSchema = z.object({
   title: z
@@ -100,9 +101,9 @@ export default function ClientPage() {
               <FormItem>
                 <FormLabel>내용</FormLabel>
                 <FormControl>
-                  <Input
+                  <Textarea
                     {...field}
-                    type="text"
+                    className="h-[calc(100dvh-350px)] min-h-[300px]"
                     placeholder="내용을 입력해주세요"
                   />
                 </FormControl>
