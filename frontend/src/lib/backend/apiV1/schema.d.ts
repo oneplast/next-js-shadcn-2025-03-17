@@ -274,6 +274,7 @@ export interface components {
             /** Format: int64 */
             authorId: number;
             authorName: string;
+            authorProfileImgUrl: string;
             title: string;
             published: boolean;
             listed: boolean;
@@ -354,6 +355,7 @@ export interface components {
             /** Format: int64 */
             authorId: number;
             authorName: string;
+            authorProfileImgUrl: string;
             title: string;
             published: boolean;
             listed: boolean;

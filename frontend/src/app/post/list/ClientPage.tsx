@@ -1,12 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import type { components } from "@/lib/backend/apiV1/schema";
 import PaginationType1Responsive from "@/lib/business/components/PaginationType1Responsive";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,7 +26,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+
+import { ListX, Lock } from "lucide-react";
 
 export default function ClientPage({
   searchKeyword,
@@ -80,9 +81,9 @@ export default function ClientPage({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="10">10개씩 보기</SelectItem>
                     <SelectItem value="30">30개씩 보기</SelectItem>
-                    <SelectItem value="50">50개씩 보기</SelectItem>
+                    <SelectItem value="60">60개씩 보기</SelectItem>
+                    <SelectItem value="90">90개씩 보기</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -133,23 +134,37 @@ export default function ClientPage({
             <Link href={`/post/${item.id}`}>
               <Card className="hover:bg-accent/50 transition-colors">
                 <CardHeader>
-                  <CardTitle>{item.title}</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    {item.title}
+                    {!item.published && <Lock className="w-4 h-4" />}
+                    {!item.listed && <ListX className="w-4 h-4" />}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex gap-2">
-                    <span>작성자: {item.authorName}</span>
-                    <span className="py-1">
-                      <Separator orientation="vertical" />
-                    </span>
-                    <span>
-                      작성일: {new Date(item.createDate).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <div className="flex mt-4 gap-2">
-                    {item.published && <Badge variant="secondary">공개</Badge>}
-                    {item.listed && (
-                      <Badge variant="secondary">목록에 노출</Badge>
-                    )}
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0">
+                      <Image
+                        src={item.authorProfileImgUrl}
+                        alt={item.authorName}
+                        width={40}
+                        height={40}
+                        className="rounded-full ring-2 ring-primary/10"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground">
+                        {item.authorName}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(item.createDate).toLocaleString("ko-KR", {
+                          year: "2-digit",
+                          month: "2-digit",
+                          day: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
