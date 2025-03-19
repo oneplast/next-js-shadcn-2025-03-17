@@ -20,6 +20,7 @@ import {
   LogOut,
   Menu,
   MonitorCog,
+  NotebookTabs,
   Pencil,
   TableOfContents,
   User,
@@ -78,6 +79,23 @@ export default function NarrowHeaderContent({
                       <Link href="/post/write">
                         <Pencil />
                         작성
+                      </Link>
+                    </Button>
+                  </DrawerClose>
+                </li>
+              )}
+
+              {isLogin && (
+                <li>
+                  <DrawerClose asChild>
+                    <Button
+                      variant="link"
+                      className="w-full justify-start"
+                      asChild
+                    >
+                      <Link href="/post/mine">
+                        <NotebookTabs />
+                        내글
                       </Link>
                     </Button>
                   </DrawerClose>
