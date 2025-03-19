@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 
 import { Pencil, TableOfContents } from "lucide-react";
 
+import LoginButton from "./LoginButton";
 import Logo from "./Logo";
 import MeMenuButton from "./MeMenuButton";
 import ThemeToggleButton from "./ThemeToggleButton";
@@ -40,6 +41,7 @@ export default function WideHeaderContent({
         </Button>
       )}
       <div className="flex-grow"></div>
+      {!isLogin && <LoginButton />}
       {isLogin && <MeMenuButton />}
       <ThemeToggleButton />
     </div>
