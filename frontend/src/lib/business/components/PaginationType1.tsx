@@ -35,6 +35,8 @@ export default function PaginationType1({
     paginationArmSize,
   });
 
+  if (totalPages <= 1) return null;
+
   return (
     <Pagination className={className}>
       <PaginationContent>

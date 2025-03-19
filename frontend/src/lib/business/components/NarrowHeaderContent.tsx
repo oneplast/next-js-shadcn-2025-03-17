@@ -9,6 +9,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -48,6 +49,7 @@ export default function NarrowHeaderContent({
         <DrawerContent>
           <DrawerHeader className="sr-only">
             <DrawerTitle>전체 메뉴</DrawerTitle>
+            <DrawerDescription>전체 메뉴</DrawerDescription>
           </DrawerHeader>
           <div className="max-h-[calc(100dvh-150px)] px-2 pb-2 overflow-y-auto">
             <ul>
