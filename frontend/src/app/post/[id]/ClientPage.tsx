@@ -32,7 +32,7 @@ export default function ClientPage({
     <main className="container mt-2 mx-auto px-2">
       <Card>
         <CardHeader>
-          <CardTitle className="mb-4 flex gap-2">
+          <CardTitle className="mb-4 flex items-center gap-2">
             <Badge variant="outline">{post.id}</Badge>
             <div>{post.title}</div>
             {!post.published && <Lock className="w-4 h-4" />}
