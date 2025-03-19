@@ -16,6 +16,98 @@ export interface PaginationProps {
   paginationArmSize?: number;
 }
 
+export interface PaginationResult {
+  pageButtonUrl: (pageNumber: number) => string;
+  prevEllipsisButtonPageNumber: number | undefined;
+  nextEllipsisButtonPageNumber: number | undefined;
+  middlePages: number[];
+}
+
+export function createPageButtonUrl(baseQueryString: string) {
+  return (pageNumber: number) => `?page=${pageNumber}&${baseQueryString}`;
+}
+
+export function calculatePrevEllipsisNumber(
+  currentPageNumber: number,
+  paginationArmSize: number,
+) {
+  return currentPageNumber - paginationArmSize - 1 > 2
+    ? currentPageNumber - paginationArmSize - 1
+    : undefined;
+}
+
+export function calculateNextEllipsisNumber(
+  currentPageNumber: number,
+  paginationArmSize: number,
+  totalPages: number,
+) {
+  return currentPageNumber + paginationArmSize + 1 < totalPages - 1
+    ? currentPageNumber + paginationArmSize + 1
+    : undefined;
+}
+
+export function generateMiddlePages(
+  totalPages: number,
+  currentPageNumber: number,
+  paginationArmSize: number,
+  prevEllipsisButtonPageNumber: number | undefined,
+  nextEllipsisButtonPageNumber: number | undefined,
+): number[] {
+  const isInCurrentRange = (pageNum: number) =>
+    pageNum >= currentPageNumber - paginationArmSize &&
+    pageNum <= currentPageNumber + paginationArmSize;
+
+  const isInStartRange = (pageNum: number) =>
+    !prevEllipsisButtonPageNumber && pageNum <= 2;
+
+  const isInEndRange = (pageNum: number) =>
+    !nextEllipsisButtonPageNumber && pageNum >= totalPages - 1;
+
+  return Array.from({ length: totalPages }, (_, i) => i + 1).filter(
+    (pageNum) =>
+      pageNum > 1 &&
+      pageNum < totalPages &&
+      (isInCurrentRange(pageNum) ||
+        isInStartRange(pageNum) ||
+        isInEndRange(pageNum)),
+  );
+}
+
+function PaginationNumber({
+  pageNumber,
+  currentPageNumber,
+  pageButtonUrl,
+}: {
+  pageNumber: number;
+  currentPageNumber: number;
+  pageButtonUrl: (page: number) => string;
+}) {
+  return (
+    <PaginationItem>
+      <PaginationLink
+        href={pageButtonUrl(pageNumber)}
+        isActive={pageNumber === currentPageNumber}
+      >
+        {pageNumber}
+      </PaginationLink>
+    </PaginationItem>
+  );
+}
+
+function EllipsisButton({
+  pageNumber,
+  pageButtonUrl,
+}: {
+  pageNumber: number;
+  pageButtonUrl: (page: number) => string;
+}) {
+  return (
+    <PaginationLink href={pageButtonUrl(pageNumber)}>
+      <PaginationEllipsis />
+    </PaginationLink>
+  );
+}
+
 export default function PaginationType1({
   className,
   baseQueryString,
@@ -47,9 +139,10 @@ export default function PaginationType1({
         />
 
         {prevEllipsisButtonPageNumber && (
-          <PaginationLink href={pageButtonUrl(prevEllipsisButtonPageNumber)}>
-            <PaginationEllipsis />
-          </PaginationLink>
+          <EllipsisButton
+            pageNumber={prevEllipsisButtonPageNumber}
+            pageButtonUrl={pageButtonUrl}
+          />
         )}
 
         {middlePages.map((pageNum) => (
@@ -62,9 +155,10 @@ export default function PaginationType1({
         ))}
 
         {nextEllipsisButtonPageNumber && (
-          <PaginationLink href={pageButtonUrl(nextEllipsisButtonPageNumber)}>
-            <PaginationEllipsis />
-          </PaginationLink>
+          <EllipsisButton
+            pageNumber={nextEllipsisButtonPageNumber}
+            pageButtonUrl={pageButtonUrl}
+          />
         )}
 
         <PaginationNumber
@@ -76,22 +170,3 @@ export default function PaginationType1({
     </Pagination>
   );
 }
-
-const PaginationNumber = ({
-  pageNumber,
-  currentPageNumber,
-  pageButtonUrl,
-}: {
-  pageNumber: number;
-  currentPageNumber: number;
-  pageButtonUrl: (page: number) => string;
-}) => (
-  <PaginationItem>
-    <PaginationLink
-      href={pageButtonUrl(pageNumber)}
-      isActive={pageNumber === currentPageNumber}
-    >
-      {pageNumber}
-    </PaginationLink>
-  </PaginationItem>
-);

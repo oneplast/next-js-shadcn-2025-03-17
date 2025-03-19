@@ -1,3 +1,11 @@
+import {
+  PaginationResult,
+  calculateNextEllipsisNumber,
+  calculatePrevEllipsisNumber,
+  createPageButtonUrl,
+  generateMiddlePages,
+} from "./PaginationType1";
+
 interface UsePaginationProps {
   baseQueryString: string;
   totalPages: number;
@@ -10,29 +18,26 @@ export function usePagination({
   totalPages,
   currentPageNumber,
   paginationArmSize,
-}: UsePaginationProps) {
-  const pageButtonUrl = (pageNumber: number) =>
-    `?page=${pageNumber}&${baseQueryString}`;
+}: UsePaginationProps): PaginationResult {
+  const pageButtonUrl = createPageButtonUrl(baseQueryString);
 
-  const prevEllipsisButtonPageNumber =
-    currentPageNumber - paginationArmSize - 1 > 1
-      ? currentPageNumber - paginationArmSize - 1
-      : undefined;
+  const prevEllipsisButtonPageNumber = calculatePrevEllipsisNumber(
+    currentPageNumber,
+    paginationArmSize,
+  );
 
-  const nextEllipsisButtonPageNumber =
-    currentPageNumber + paginationArmSize + 1 < totalPages
-      ? currentPageNumber + paginationArmSize + 1
-      : undefined;
+  const nextEllipsisButtonPageNumber = calculateNextEllipsisNumber(
+    currentPageNumber,
+    paginationArmSize,
+    totalPages,
+  );
 
-  const middlePages = Array.from(
-    { length: totalPages },
-    (_, i) => i + 1,
-  ).filter(
-    (pageNum) =>
-      pageNum > 1 &&
-      pageNum < totalPages &&
-      pageNum >= currentPageNumber - paginationArmSize &&
-      pageNum <= currentPageNumber + paginationArmSize,
+  const middlePages = generateMiddlePages(
+    totalPages,
+    currentPageNumber,
+    paginationArmSize,
+    prevEllipsisButtonPageNumber,
+    nextEllipsisButtonPageNumber,
   );
 
   return {
