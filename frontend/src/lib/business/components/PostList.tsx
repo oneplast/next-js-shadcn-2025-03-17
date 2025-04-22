@@ -65,7 +65,12 @@ export default function PostList({
             value={
               searchKeyword
                 ? `${
-                    searchKeywordType === "title" ? "제목" : "내용"
+                    {
+                      all: "전체",
+                      title: "제목",
+                      content: "내용",
+                      author: "작가",
+                    }[searchKeywordType]
                   } : ${searchKeyword}`
                 : ""
             }
@@ -85,7 +90,15 @@ export default function PostList({
         {searchKeyword && (
           <div className="flex items-center gap-2 text-sm bg-muted px-3 py-1.5 rounded-md">
             <span className="text-muted-foreground">
-              {searchKeywordType === "title" ? "제목" : "내용"}:
+              {
+                {
+                  all: "전체",
+                  title: "제목",
+                  content: "내용",
+                  author: "작가",
+                }[searchKeywordType]
+              }
+              :
             </span>
             <span className="font-medium">{searchKeyword}</span>
             <Button
@@ -176,8 +189,10 @@ export default function PostList({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
+                    <SelectItem value="all">전체</SelectItem>
                     <SelectItem value="title">제목</SelectItem>
                     <SelectItem value="content">내용</SelectItem>
+                    <SelectItem value="author">작성자</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
