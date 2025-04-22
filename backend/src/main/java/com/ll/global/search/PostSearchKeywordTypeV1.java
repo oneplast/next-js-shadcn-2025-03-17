@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum PostSearchKeywordTypeV1 {
+    all("all"),
     title("title"),
-    content("content");
+    content("content"),
+    author("author");
 
     private final String value;
 }
