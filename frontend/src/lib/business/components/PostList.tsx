@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 import { components } from "@/lib/backend/apiV1/schema";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -219,6 +220,7 @@ export default function PostList({
                 <Card className="hover:bg-accent/50 transition-colors">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
+                      <Badge variant="outline">{item.id}</Badge>
                       {item.title}
                       {!item.published && <Lock className="w-4 h-4" />}
                       {!item.listed && <ListX className="w-4 h-4" />}
