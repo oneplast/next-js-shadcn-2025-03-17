@@ -33,9 +33,11 @@ function processMarkdown(input: string) {
   // 2. 영어, 소괄호, 한글(자음/모음 포함), 띄어쓰기, 줄바꿈 외의 모든 문자 제거
   // 3. 연속된 공백과 줄바꿈을 하나의 공백으로 변경하고 앞뒤 공백 제거
   return clientContext
-    .replace(/[^a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9()\s]/g, "")
+    .replace(/[^a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9().?!\s]/g, "")
     .replace(/\s+/g, " ")
-    .trim();
+    .trim()
+    .slice(0, 157)
+    .replace(/(.{157})/, "$1...");
 }
 
 export async function generateMetaData({
