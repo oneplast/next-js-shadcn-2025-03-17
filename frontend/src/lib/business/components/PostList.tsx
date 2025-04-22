@@ -222,8 +222,12 @@ export default function PostList({
                     <CardTitle className="flex items-center gap-2">
                       <Badge variant="outline">{item.id}</Badge>
                       {item.title}
-                      {!item.published && <Lock className="w-4 h-4" />}
-                      {!item.listed && <ListX className="w-4 h-4" />}
+                      {!item.published && (
+                        <Lock className="w-4 h-4 flex-shrink-0" />
+                      )}
+                      {!item.listed && (
+                        <ListX className="w-4 h-4 flex-shrink-0" />
+                      )}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>

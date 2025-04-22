@@ -35,8 +35,8 @@ export default function ClientPage({
           <CardTitle className="mb-4 flex items-center gap-2">
             <Badge variant="outline">{post.id}</Badge>
             <div>{post.title}</div>
-            {!post.published && <Lock className="w-4 h-4" />}
-            {!post.listed && <ListX className="w-4 h-4" />}
+            {!post.published && <Lock className="w-4 h-4 flex-shrink-0" />}
+            {!post.listed && <ListX className="w-4 h-4 flex-shrink-0" />}
           </CardTitle>
           <CardDescription className="sr-only">
             게시물 상세 내용
