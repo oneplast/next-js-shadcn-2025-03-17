@@ -15,7 +15,7 @@ import { LoginMemberContext, useLoginMember } from "@/stores/auth/loginMember";
 
 import { Button } from "@/components/ui/button";
 
-import { Copyright, LogIn } from "lucide-react";
+import { Copyright, LogIn, MonitorCog } from "lucide-react";
 
 export function ClientLayout({
   children,
@@ -29,6 +29,8 @@ export function ClientLayout({
     isAdmin,
     logout,
     logoutAndHome,
+    isAdminPage,
+    isUserPage,
   } = useLoginMember();
 
   const loginMemberContextValue = {
@@ -40,6 +42,8 @@ export function ClientLayout({
     isAdmin,
     logout,
     logoutAndHome,
+    isAdminPage,
+    isUserPage,
   };
 
   useEffect(() => {
@@ -79,12 +83,23 @@ export function ClientLayout({
         </header>
         <main className="flex-1 flex flex-col">{children}</main>
         <footer className="p-2 flex justify-center">
-          <Button variant="link" asChild>
-            <Link href="/">
-              <Copyright />
-              2025 글로그
-            </Link>
-          </Button>
+          {isUserPage && (
+            <Button variant="link" asChild>
+              <Link href="/">
+                <Copyright />
+                2025 글로그
+              </Link>
+            </Button>
+          )}
+
+          {isAdminPage && (
+            <Button variant="link" asChild>
+              <Link href="/adm">
+                <MonitorCog />
+                글로그 관리자 페이지
+              </Link>
+            </Button>
+          )}
           {!isLogin && (
             <Button variant="link" asChild>
               <Link href="/adm/member/login">
