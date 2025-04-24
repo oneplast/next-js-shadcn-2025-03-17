@@ -4,7 +4,6 @@ import com.ll.domain.member.member.entity.Member;
 import com.ll.domain.member.member.repository.MemberRepository;
 import com.ll.global.exceptions.ServiceException;
 import com.ll.global.search.MemberSearchKeywordTypeV1;
-import com.ll.util.Ut;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +11,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -79,24 +79,13 @@ public class MemberService {
 
     public Page<Member> findByPaged(MemberSearchKeywordTypeV1 searchKeywordType, String searchKeyword, int page,
                                     int pageSize) {
-        if (Ut.str.isBlank(searchKeyword)) {
-            return findByPaged(page, pageSize);
-        }
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Order.desc("id")));
 
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Order.desc("id")));
-
-        searchKeyword = "%" + searchKeyword + "%";
-
-        return switch (searchKeywordType) {
-            case MemberSearchKeywordTypeV1.username -> memberRepository.findByUsernameLike(searchKeyword, pageRequest);
-            default -> memberRepository.findByNicknameLike(searchKeyword, pageRequest);
-        };
+        return memberRepository.findByKw(searchKeywordType, searchKeyword, pageable);
     }
 
     public Page<Member> findByPaged(int page, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Order.desc("id")));
-
-        return memberRepository.findAll(pageRequest);
+        return findByPaged(null, null, page, pageSize);
     }
 
     public void modify(Member member, @NotBlank String nickname, String profileImgUrl) {
