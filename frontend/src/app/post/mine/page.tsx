@@ -8,7 +8,7 @@ export default async function Page({
   searchParams,
 }: {
   searchParams: {
-    searchKeywordType?: "title" | "content";
+    searchKeywordType?: "all" | "title" | "content" | "author";
     searchKeyword?: string;
     pageSize?: number;
     page?: number;
@@ -16,7 +16,7 @@ export default async function Page({
 }) {
   const {
     searchKeyword = "",
-    searchKeywordType = "title",
+    searchKeywordType = "all",
     pageSize = 30,
     page = 1,
   } = await searchParams;

@@ -891,7 +891,7 @@ export interface operations {
     items_2: {
         parameters: {
             query?: {
-                searchKeywordType?: "username" | "nickname";
+                searchKeywordType?: "all" | "username" | "nickname";
                 searchKeyword?: string;
                 page?: number;
                 pageSize?: number;

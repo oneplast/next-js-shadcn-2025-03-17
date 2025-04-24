@@ -10,7 +10,7 @@ export default function ClientPage({
   itemPage,
 }: {
   searchKeyword: string;
-  searchKeywordType: string;
+  searchKeywordType: "all" | "title" | "content" | "author";
   page: number;
   pageSize: number;
   itemPage: components["schemas"]["PageDtoPostDto"];

@@ -36,7 +36,7 @@ import PaginationType1Responsive from "./PaginationType1Responsive";
 
 interface PostListProps {
   searchKeyword: string;
-  searchKeywordType: string;
+  searchKeywordType: "all" | "title" | "content" | "author";
   pageSize: number;
   itemPage: components["schemas"]["PageDtoPostDto"];
 }
